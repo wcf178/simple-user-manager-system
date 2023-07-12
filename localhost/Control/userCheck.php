@@ -27,7 +27,8 @@
             </tr>
             <?php require_once "../Model/sqlConnect.php";?>
             <?PHP
-                $condition = $_POST["condition"];
+                //$condition = $_POST["condition"];
+                $condition = "";
                 //查询所有的员工信息
                 if(!empty($condition)){
                     $sql = "select user_name,user_code,user_sex,user_age,user_dept,user_group from user where user_name = '".$condition."' or user_code = '".$condition."'";
