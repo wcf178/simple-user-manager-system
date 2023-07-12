@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js">
+    </script>
+    <title>用户管理系统</title>
+</head>
+<body>
+    <div class="main">
+        <div id="control">点击展开</div>
+        <div id="formTable">
+            <form action="" method="post">
+                <table>
+                    <caption><h3>用户登录</h3></caption>
+                    <tr>
+                        <td>用户名</td>
+                        <td><input type="text" id="name" name="username"></td>
+                    </tr>
+                    <tr>
+                        <td>密码</td>
+                        <td><input type="password" id="pwd" name="password"></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"><button id="signIn">登录</button></td>
+                        <td colspan="2"><button id="registe">注册</button></td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+
+    </div>
+    
+</body>
+<script>
+    $(document).ready(function(){
+        $("#control").click(function(){
+            $("#formTable").slideToggle("slow");
+            $("#control").hide();
+            $("#formTable").css("display","flex")
+            
+        });
+        $("#signIn").click(function(){
+            $.post("../Control/userVerify.php",{
+                username:$("#name").val(),
+                password:$("#pwd").val()
+            },function(data,status){
+                //console.log(data+" "+status);
+                if(status == "success"){
+                    alert("登陆成功");
+                    window.location.href="index.html";
+                    $("#name").val("");
+                    $("#pwd").val("");
+                }
+                else{
+                    alert("失败")
+                }
+                
+            })
+        });
+        $("#registe").click(function(){
+            // 用户注册功能
+            // 点击注册后进入注册页面
+ 
+            window.open("Register.html");
+            // window.location.href="Register.html"; //不行
+            console.log("测试iii")
+                
+            
+        })
+    })
+</script>
+<style>
+    body{
+        margin: 0;
+        padding: 0;
+    }
+    .main{
+        height: 100%;
+        width: 100%;
+        display: flex;
+        align-self: center;
+        position: absolute;
+        justify-content: center;
+        align-items: center;
+        margin:2px;
+        /* background-color: rgb(243, 138, 0); */
+    }
+    #control{
+        display: flex;
+        text-align: center;
+        position: static;
+        background-color: beige;
+    }
+    #formTable{
+        display:none;
+        width:50%;
+        margin:auto;
+        background-color: aqua;
+        
+        text-align: center;
+        justify-content: center;
+        border: 3px solid black;
+        box-shadow: 3px;
+        border-radius: 2px;
+    }
+</style>
+</html>
