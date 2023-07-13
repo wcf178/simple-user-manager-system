@@ -9,9 +9,21 @@
 </head>
 <body>
     <!-- 暂未实现搜索功能 -->
-    <div class="headBar">
-        <input type="text" id="Condition" placeholder="请输入姓名或工号">
-        <button id="searchbtn">搜索</button>
+    <div class="headBar" align = "center">
+        
+        <form action="#" method="get">
+            <table>
+                <tr>
+                    <td>
+                        <input type="text" id="Condition" name="nc" placeholder="请输入姓名或工号"`>
+                    </td>
+                    <!-- <td><button id="searchbtn">搜索</button></td> -->
+                    <td><input type="submit" value="搜索"></td>
+                </tr>
+            </table>
+        </form>
+        
+        
     </div>
     <div>
         <table align = "center">
@@ -27,8 +39,10 @@
             </tr>
             <?php require_once "../Model/sqlConnect.php";?>
             <?PHP
-                //$condition = $_POST["condition"];
-                $condition = "";
+
+                $condition = $_GET["nc"];
+                //print_r( $_GET);
+                //$condition = "";
                 //查询所有的员工信息
                 if(!empty($condition)){
                     $sql = "select user_name,user_code,user_sex,user_age,user_dept,user_group from user where user_name = '".$condition."' or user_code = '".$condition."'";
@@ -38,18 +52,20 @@
                 }
                 
                 $result = mysqli_query($conn,$sql);
+                $i=0;
                 while($row = mysqli_fetch_row($result)){
                 ?>
-                <?php echo"<tr>"?>
+                <?php echo"<tr id='tr'".$i."'>"?>
                 <?php echo"<td>".$row[0]."</td>"?>
-                <?php echo"<td>".$row[1]."</td>"?>
+                <?php echo"<td class='usercode'>".$row[1]."</td>"?>
                 <?php echo"<td>".$row[2]."</td>"?>
                 <?php echo"<td>".$row[3]."</td>"?>
                 <?php echo"<td>".$row[4]."</td>"?>
                 <?php echo"<td>".$row[5]."</td>"?>
-                <?php echo"<td><button id='deletebtn'>删除</botton></td>"?>
+                <?php echo"<td><button class='deletebtn' id='user".$i."'>删除</botton></td>"?>
                 <?php echo"</tr>"?>
                 <?php
+                $i++;
                 }
             ?>
         </table>
@@ -57,17 +73,46 @@
     <script>
         $(document).ready(function(){
             $("#searchbtn").click(function(){
-                $.post("userCheck.php",
+                $.get("userCheck.php",
                 {
-                    condition:$("#Condition").val()
+                    nc:$("#Condition").val()
+                    
+                },function(date,status){
+                    console.log( date+" "+status)
+                    
+                },function(data,status){
+                    if(status == "success"){
+                        location.reload()
+                    }
+                    
                 })
-            })
-            $("#deletebtn").click(function(){
-                $.post("userDelete.php",
-                {
-                    userCode:$("#")
+            });
+            //console.log($(".deletebtn")[1].id);
+            console.log("nihao0");
+
+            
+
+            for(var i=0;i<$(".deletebtn").length;i++){
+                //console.log("nihao1");
+                console.log($(".deletebtn")[i].id);
+                $("#"+$(".deletebtn")[i].id).click(function(){
+                    console.log($(this));
+                    var userid = $(this).parent().parent().children(".usercode").text();
+                    console.log("userId: "+userid)
+                    //console.log("sdad satisfies:"+$(this).siblings(".usercode").text())
+                    $.post("userDelete.php",
+                    {
+                        usercode: userid
+                    },function(date,status){
+                        if(status="success"){
+                            alert('删除成功！');
+                            //删除成功后刷新表格
+                            location.reload();
+                        }
+                    })
                 })
-            })
+            }
+            
         })
     </script>
 </body>
