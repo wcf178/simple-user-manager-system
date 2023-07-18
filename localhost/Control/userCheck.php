@@ -11,17 +11,18 @@
     <!-- 暂未实现搜索功能 -->
     <div class="headBar" align = "center">
         
-        <form action="#" method="get">
+
             <table>
                 <tr>
                     <td>
                         <input type="text" id="Condition" name="nc" placeholder="请输入姓名或工号"`>
                     </td>
-                    <!-- <td><button id="searchbtn">搜索</button></td> -->
-                    <td><input type="submit" value="搜索"></td>
+                    <td><button id="searchbtn">搜索</button></td> 
+                    <!-- <td><input type="submit" value="搜索"></td> -->
                 </tr>
             </table>
-        </form>
+
+       
         
         
     </div>
@@ -41,10 +42,12 @@
             <?PHP
 
                 $condition = $_GET["nc"];
+                //if()
                 //print_r( $_GET);
                 //$condition = "";
                 //查询所有的员工信息
                 if(!empty($condition)){
+                    //echo $condition;
                     $sql = "select user_name,user_code,user_sex,user_age,user_dept,user_group from user where user_name = '".$condition."' or user_code = '".$condition."'";
                 }
                 else{
@@ -79,10 +82,8 @@
                     
                 },function(date,status){
                     console.log( date+" "+status)
-                    
-                },function(data,status){
                     if(status == "success"){
-                        location.reload()
+                        location.replace("userCheck.php?nc="+nc)
                     }
                     
                 })
