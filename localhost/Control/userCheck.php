@@ -40,7 +40,7 @@
             </tr>
             <?php require_once "../Model/sqlConnect.php";?>
             <?PHP
-
+                phpinfo();
                 $condition = $_GET["nc"];
                 //if()
                 //print_r( $_GET);
